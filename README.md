@@ -36,3 +36,71 @@ console.log(buf.toString('base64'));
 ```
 
 
+## Buffer 与 ES6 迭代器
+
+Buffer 实例可以使用 ES6 的 for..of 语法进行遍历
+
+```js
+const buf = Buffer.from([1, 2, 3]);
+
+for (var b of buf) {
+    console.log(b);
+}
+// 输出:
+//   1
+//   2
+//   3
+```
+
+## Buffer 类
+
+~~```new Buffer(array)```~~ 使用 ```Buffer.from(array)``` 代替
+
+~~```new Buffer(buffer)```~~ 使用 ```Buffer.from(buffer)``` 代替
+
+~~```new Buffer(arrayBuffer[, byteOffset [, length]])```~~ 使用 ```Buffer.from(arrayBuffer[, byteOffset [, length]]```) 代替
+
+~~```new Buffer(size)```~~ 使用 ```Buffer.alloc()``` 代替（或 ```Buffer.allocUnsafe()```）
+
+~~```new Buffer(string[, encoding])```~~ 使用 ```Buffer.from(string[, encoding])``` 代替
+
+## 类方法：Buffer.alloc(size[, fill[, encoding]])
+
+* ```size``` 新建的 ```Buffer``` 期望的长度
+
+* ```fill``` 用来预填充新建的 ```Buffer``` 的值。 默认: 0
+
+* ```encoding``` 如果 ```fill``` 是字符串，则该值是它的字符编码。 默认: 'utf8'
+
+分配一个大小为 ```size``` 字节的新建的 ```Buffer``` 。 如果 ```fill``` 为 ```undefined``` ，则该 ```Buffer``` 会用 ```0``` 填充
+
+```js
+const buf = Buffer.alloc(5);
+
+console.log(buf);
+// 输出: <Buffer 00 00 00 00 00>
+```
+
+```size``` 必须小于或等于 ```buffer.kMaxLength```（分配给单个 ```Buffer``` 实例的最大内存） 的值，否则会抛出错误。 如果 ```size``` 小于或等于 ```0```，则创建一个长度为 ```0``` 的 ```Buffer```
+
+```js
+const buf = Buffer.alloc(5, 'a');
+
+// 输出: <Buffer 61 61 61 61 61>
+console.log(buf);
+```
+
+如果同时指定了 ```fill``` 和 ```encoding``` ，则会调用 ```buf.fill(fill, encoding)``` 初始化分配的 ```Buffer``` 
+
+```js
+const buf = Buffer.alloc(11, 'aGVsbG8gd29ybGQ=', 'base64');
+
+// 输出: <Buffer 68 65 6c 6c 6f 20 77 6f 72 6c 64>
+console.log(buf);
+```
+
+调用 ```Buffer.alloc()``` 会明显地比另一个方法 ```Buffer.allocUnsafe()``` 慢，但是能确保新建的 ```Buffer``` 实例的内容不会包含敏感数据。
+
+需要注意的是：如果 ```size``` 不是一个数值，则抛出错误
+
+
