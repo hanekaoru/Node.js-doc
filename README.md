@@ -1,3 +1,9 @@
+Node.js 文档学习笔记
+
+基于 @6.9.5
+
+----
+
 ## Buffer.from(), Buffer.alloc(), Buffer.allocUnsafe()
 
 为了使 ```Buffer``` 实例的创建更可靠、更不容易出错，各种 ```new Buffer()``` 构造函数已被**废弃**，并由```Buffer.from()```、```Buffer.alloc()```、和 ```Buffer.allocUnsafe()``` 方法替代
@@ -28,3 +34,5 @@ console.log(buf.toString('hex'));
 // 输出 aGVsbG8gd29ybGQ=
 console.log(buf.toString('base64'));
 ```
+
+
